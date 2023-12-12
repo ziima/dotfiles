@@ -1,0 +1,139 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" .vimrc file
+"
+" Use gvim (vim-gnome, vim-gtk or vim-athena) to have some additional features
+" available e.g. yank to system clipboard and enhanced input so <Ctrl> and other
+" switch keys work.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Load defaults.vim as described in vim docs (':help defaults.vim')
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set up Vundle plugin first
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'  " Let Vundle manage Vundle
+
+" Install vim-airline vim-fugitive vim-syntastic and vim-youcompleteme from package
+" vim-addons install airline fugitive syntastic youcompleteme
+
+" Now all my plugins
+Plugin 'fholgado/minibufexpl.vim'  " Buffer management
+Plugin 'fisadev/vim-isort'  " isort for VIM
+Plugin 'tpope/vim-commentary' " Comments
+Plugin 'luochen1990/rainbow' " Color nested parentheses in different colors
+Plugin 'tpope/vim-unimpaired' " Pair mappings
+" vim-coverage and its dependecies
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-coverage'
+Plugin 'google/vim-glaive'
+
+" End of Vundle
+call vundle#end()
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" And now the vim configuration itself
+
+" DISPLAY
+" Use unicode characters
+set encoding=utf-8
+" display status line
+set laststatus=2
+" display command typed in
+set showcmd
+" display line number
+set number
+" don't yank line numbers when using mouse but don't move cursor when writing
+" http://vim.wikia.com/wiki/Using_the_mouse_for_Vim_in_an_xterm
+set mouse=nv
+" display syntax
+syntax on
+" create new window on right or below
+set splitright
+set splitbelow
+" Use vertical split by default - usefull for fugitive
+set diffopt=filler,vertical
+" shell style autocompletion
+set wildmenu
+set wildmode=longest:full
+" highlight searching
+set incsearch
+set hlsearch
+" set smartcase "Ignore case in search
+" history - it was reset by 'set nocompatible'
+set history=1000
+" Enable peristent undo - undos are remembered after vim is closed
+set undofile
+set undodir=$HOME/.vim/undo
+" Create the undo directory
+call system('mkdir $HOME/.vim/undo')
+
+" MOVEMENT
+" allow backspace and cursor keys to cross line boundaries
+set whichwrap+=<,>,[,]
+" Minimal number of screen lines to keep above and below the cursor
+set scrolloff=5
+" Switch windows using Alt+arrow
+nmap <silent> <A-Up> :wincmd k<Enter>
+nmap <silent> <A-Down> :wincmd j<Enter>
+nmap <silent> <A-Left> :wincmd h<Enter>
+nmap <silent> <A-Right> :wincmd l<Enter>
+" Switch windows using Alt+hjkl
+" nnoremap <silent> <A-h> :wincmd h<CR>
+" nnoremap <silent> <A-j> :wincmd j<CR>
+" nnoremap <silent> <A-k> :wincmd k<CR>
+" nnoremap <silent> <A-l> :wincmd l<CR>
+" Gnome terminal send weird Alt https://stackoverflow.com/a/10216459/2440346,
+" it can be fixed by https://stackoverflow.com/a/10633069/2440346
+" The sequences are typed by [Ctrl+v Alt+<letter>]
+nnoremap <silent> h :wincmd h<Enter>
+nnoremap <silent> j :wincmd j<Enter>
+nnoremap <silent> k :wincmd k<Enter>
+nnoremap <silent> l :wincmd l<Enter>
+" Jump to definition - YouCompleteMe
+nnoremap <silent> <C-h> :YcmCompleter GoTo<CR>
+" Toggle coverage
+nnoremap <silent> <C-c> :CoverageToggle<CR> :SyntasticCheck<CR>
+
+" TYPING
+" By default replace tabs with spaces. Is modified by filetype where appropriate
+set expandtab
+" tab width
+set tabstop=4
+set shiftwidth=4
+" highlight column 120
+set colorcolumn=121
+
+" FILE TYPE PLUGIN
+filetype plugin indent on
+
+" ADVANCED
+" Show trailing whitespaces and tab characters
+" (use :dig for list of digraphs)
+set list
+set listchars=nbsp:¬,tab:»»,trail:·
+" Color trailing whitespace and tab characters.
+" Note that the foreground colors are overridden here, so this only works with the "set list" settings above.
+highlight ExtraWhitespace ctermfg=red cterm=bold term=bold
+match ExtraWhitespace '\s\+$\|\t'
+" Highlight in newly opened files
+autocmd BufWinEnter * match ExtraWhitespace '\s\+$\|\t'
+" Highlight in splits, see http://vim.wikia.com/wiki/Detect_window_creation_with_WinEnter for details.
+autocmd WinEnter * match ExtraWhitespace '\s\+$\|\t'
+
+" PLUGIN CONFIGURATION
+" let $PYTHONPATH=$HOME."/git/path/to/project"
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_python_checkers = ['python', 'flake8', 'bandit', 'mypy', 'pydocstyle']
+let g:syntastic_python_python_exec = 'python3.9'
+let g:syntastic_aggregate_errors = 1
+
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+let g:rainbow_active = 1
+
+" Configure coverage
+call glaive#Install()
