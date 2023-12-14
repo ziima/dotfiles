@@ -25,6 +25,9 @@ Plugin 'fisadev/vim-isort'  " isort for VIM
 Plugin 'tpope/vim-commentary' " Comments
 Plugin 'luochen1990/rainbow' " Color nested parentheses in different colors
 Plugin 'tpope/vim-unimpaired' " Pair mappings
+Plugin 'tpope/vim-speeddating'  " CTRL-A/CTRL-X to increment dates
+Plugin 'zef/vim-cycle'  " CTRL-A/CTRL-X to cycle through defined groups
+Plugin 'tpope/vim-abolish' " Better substitution and case changes (coercion)
 " vim-coverage and its dependecies
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-coverage'
@@ -74,6 +77,9 @@ call system('mkdir $HOME/.vim/undo')
 set whichwrap+=<,>,[,]
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=5
+" Detach input from terminal on Esc
+tnoremap <Esc> <C-W>
+
 " Switch windows using Alt+arrow
 nmap <silent> <A-Up> :wincmd k<Enter>
 nmap <silent> <A-Down> :wincmd j<Enter>
@@ -135,5 +141,19 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 
 let g:rainbow_active = 1
 
+" Set # as a comment character for INI files.
+autocmd FileType dosini setlocal commentstring=#\ %s
+
 " Configure coverage
 call glaive#Install()
+
+au VimEnter * call AddCycleGroup(['True', 'False'])
+au VimEnter * call AddCycleGroup(['assertTrue', 'assertFalse'])
+au VimEnter * call AddCycleGroup(['assertEqual', 'assertNotEqual'])
+au VimEnter * call AddCycleGroup(['assertIsNone', 'assertIsNotNone'])
+au VimEnter * call AddCycleGroup(['with', 'async with'])
+au VimEnter * call AddCycleGroup(['def', 'async def'])
+au VimEnter * call AddCycleGroup(['setUp', 'asyncSetUp'])
+au VimEnter * call AddCycleGroup(['tearDown', 'asyncTearDown'])
+au VimEnter * call AddCycleGroup(['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'])
+au VimEnter * call AddCycleGroup(['ledna', 'února', 'března', 'dubna', 'května', 'června', 'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'])
