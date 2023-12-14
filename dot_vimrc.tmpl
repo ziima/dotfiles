@@ -20,6 +20,9 @@ Plugin 'gmarik/Vundle.vim'  " Let Vundle manage Vundle
 " vim-addons install airline fugitive syntastic youcompleteme
 
 " Now all my plugins
+{{ if eq .vim_lsp "ale" -}}
+Plugin 'dense-analysis/ale'  " ALE (Asynchronous Lint Engine)
+{{- end }}
 Plugin 'fholgado/minibufexpl.vim'  " Buffer management
 Plugin 'fisadev/vim-isort'  " isort for VIM
 Plugin 'tpope/vim-commentary' " Comments
@@ -97,10 +100,19 @@ nnoremap <silent> h :wincmd h<Enter>
 nnoremap <silent> j :wincmd j<Enter>
 nnoremap <silent> k :wincmd k<Enter>
 nnoremap <silent> l :wincmd l<Enter>
-" Jump to definition - YouCompleteMe
+" Jump to definition
+{{ if eq .vim_lsp "ycm" -}}
 nnoremap <silent> <C-h> :YcmCompleter GoTo<CR>
+{{- else -}}
+nnoremap <silent> <C-h> :ALEGoToDefinition<CR>
+nnoremap <silent> <C-j> :ALEHover<CR>
+{{- end }}
 " Toggle coverage
+{{ if eq .vim_lsp "ycm" -}}
 nnoremap <silent> <C-c> :CoverageToggle<CR> :SyntasticCheck<CR>
+{{- else -}}
+nnoremap <silent> <C-c> :CoverageToggle!<CR>
+{{- end }}
 
 " TYPING
 " By default replace tabs with spaces. Is modified by filetype where appropriate
@@ -129,7 +141,11 @@ autocmd BufWinEnter * match ExtraWhitespace '\s\+$\|\t'
 autocmd WinEnter * match ExtraWhitespace '\s\+$\|\t'
 
 " PLUGIN CONFIGURATION
-" let $PYTHONPATH=$HOME."/git/path/to/project"
+{{ if .vim_venv -}}
+let $VIRTUAL_ENV={{ .vim_venv | quote }}
+let $PYTHONPATH=$VIRTUAL_ENV."/lib/python3.11/site-packages:".$PYTHONPATH
+{{- end }}
+{{ if eq .vim_lsp "ycm" -}}
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
@@ -138,6 +154,25 @@ let g:syntastic_python_python_exec = 'python3.9'
 let g:syntastic_aggregate_errors = 1
 
 let g:ycm_autoclose_preview_window_after_completion = 1
+{{- else -}}
+let b:ale_linters = {'python': ['bandit', 'cspell', 'flake8', 'mypy', 'pydocstyle', 'pylsp']}
+let g:ale_echo_msg_format = '[%linter%:%code%] %s'
+" Run pylsp within fred_env virtualenv
+let g:ale_python_pylsp_executable = 'fred_env'
+let g:ale_python_pylsp_options = 'pylsp'
+" Use flake8 project configuration and disable pycodestyle enabled by default.
+let g:ale_python_pylsp_config = {
+\   'pylsp': {
+\     'configurationSources': ['flake8'],
+\     'plugins': {
+\       'pycodestyle': {'enabled': v:false},
+\     },
+\   }
+\ }
+" XXX: Should hover automatically, but doesn't
+" let g:ale_hover_cursor = 1
+let g:ale_floating_preview = 1
+{{- end }}
 
 let g:rainbow_active = 1
 

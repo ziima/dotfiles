@@ -1,6 +1,11 @@
 {{- $name := promptStringOnce . "name" "Full name" -}}
 {{- $email := promptStringOnce . "email" "Email address" -}}
+{{- $vim_lsp_choices := list "ycm" "ale" -}}
+{{- $vim_lsp := promptChoiceOnce . "vim_lsp" "VIM LSP" $vim_lsp_choices -}}
+{{- $vim_venv := promptStringOnce . "vim_venv" "VIM venv" -}}
 
 data:
     name: {{ $name | quote }}
     email: {{ $email | quote }}
+    vim_lsp: {{ $vim_lsp | quote }}
+    vim_venv: {{ $vim_venv | quote }}
