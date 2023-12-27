@@ -1,28 +1,14 @@
-# i3status configuration file.
-# see "man i3status" for documentation.
-
-# It is important that this file is edited as UTF-8.
-# The following line should contain a sharp s:
-# ß
-# If the above line is not correctly displayed, fix your editor first!
-
-general {
-        colors = true
-        interval = 5
-        # Support colors in custom status script.
-        # See https://docs.slackware.com/howtos:window_managers:keyboard_layout_in_i3#displaying_the_active_layout_in_the_panel
-        output_format = i3bar
-}
-
+# py3status configuration file.
 order += "ipv6"
 order += "wireless _first_"
 order += "ethernet _first_"
 order += "battery all"
-# order += "disk /"
-# order += "load"
 order += "memory"
 order += "volume master"
+order += "keyboard_layout"
+order += "keyboard_locks"
 order += "tztime local"
+order += 'whoami'
 
 wireless _first_ {
         format_up = "W: (%quality at %essid) %ip"
@@ -60,4 +46,12 @@ volume master {
         # device = "default"
         mixer = "Master"
         # mixer_idx = 0
+}
+
+keyboard_locks {
+        format = '[\?if=num_lock&color=good NUM|\?color=bad NUM]'
+}
+
+whoami {
+        format = '{username}@{hostname}'
 }
