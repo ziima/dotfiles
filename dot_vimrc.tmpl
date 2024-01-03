@@ -10,7 +10,6 @@ unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set up Vundle plugin first
-set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -46,13 +45,8 @@ call vundle#end()
 set encoding=utf-8
 " display status line
 set laststatus=2
-" display command typed in
-set showcmd
 " display line number
 set number
-" don't yank line numbers when using mouse but don't move cursor when writing
-" http://vim.wikia.com/wiki/Using_the_mouse_for_Vim_in_an_xterm
-set mouse=nv
 " display syntax
 syntax on
 " create new window on right or below
@@ -61,10 +55,8 @@ set splitbelow
 " Use vertical split by default - usefull for fugitive
 set diffopt=filler,vertical
 " shell style autocompletion
-set wildmenu
 set wildmode=longest:full
 " highlight searching
-set incsearch
 set hlsearch
 " set smartcase "Ignore case in search
 " history - it was reset by 'set nocompatible'
@@ -78,8 +70,6 @@ call system('mkdir $HOME/.vim/undo')
 " MOVEMENT
 " allow backspace and cursor keys to cross line boundaries
 set whichwrap+=<,>,[,]
-" Minimal number of screen lines to keep above and below the cursor
-set scrolloff=5
 " Detach input from terminal on Esc
 tnoremap <Esc> <C-W>
 
@@ -122,9 +112,6 @@ set tabstop=4
 set shiftwidth=4
 " highlight column 120
 set colorcolumn=121
-
-" FILE TYPE PLUGIN
-filetype plugin indent on
 
 " ADVANCED
 " Show trailing whitespaces and tab characters
