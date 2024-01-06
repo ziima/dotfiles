@@ -1,0 +1,13 @@
+# XScreenSaver Preferences File
+# Written by xscreensaver-settings 6.06 for ziima on Sat Jan  6 15:27:20 2024.
+# https://www.jwz.org/xscreensaver/
+timeout:	0:10:00
+cycle:		0:10:00
+lock:		True
+lockTimeout:	0:10:00
+passwdTimeout:	0:00:30
+fade:		True
+unfade:		False
+fadeSeconds:	0:00:03
+dpmsEnabled:	False
+mode:		blank
