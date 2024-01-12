@@ -1,0 +1,2 @@
+! Set the switch user on xscreensaver
+xscreensaver-auth.default.*.newLoginCommand: dm-tool switch-to-greeter
