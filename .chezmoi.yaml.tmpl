@@ -3,10 +3,11 @@
 {{- $vim_lsp_choices := list "ycm" "ale" -}}
 {{- $vim_lsp := promptChoiceOnce . "vim_lsp" "VIM LSP" $vim_lsp_choices -}}
 {{- $vim_venv := promptStringOnce . "vim_venv" "VIM venv" -}}
+{{- $font_size := promptIntOnce . "font_size" "Terminal font size" 9 -}}
 
 data:
     name: {{ $name | quote }}
     email: {{ $email | quote }}
     vim_lsp: {{ $vim_lsp | quote }}
     vim_venv: {{ $vim_venv | quote }}
-    font_size: 9
+    font_size: {{ $font_size }}
