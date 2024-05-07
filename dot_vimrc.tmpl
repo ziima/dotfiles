@@ -142,7 +142,7 @@ let g:syntastic_aggregate_errors = 1
 
 let g:ycm_autoclose_preview_window_after_completion = 1
 {{- else -}}
-let b:ale_linters = {'python': ['bandit', 'cspell', 'flake8', 'mypy', 'pydocstyle', 'pylsp']}
+let g:ale_linters = {'python': ['ruff', 'cspell', 'mypy', 'pylsp']}
 let g:ale_echo_msg_format = '[%linter%:%code%] %s'
 " Run pylsp within fred_env virtualenv
 let g:ale_python_pylsp_executable = 'fred_env'
@@ -152,6 +152,7 @@ let g:ale_python_pylsp_config = {
 \   'pylsp': {
 \     'configurationSources': ['flake8'],
 \     'plugins': {
+\       'flake8': {'enabled': v:false},
 \       'pycodestyle': {'enabled': v:false},
 \     },
 \   }
