@@ -1,0 +1,6 @@
+# Vim backup
+*.swp
+# Direnv files
+.envrc
+# Any dev files
+pokus*

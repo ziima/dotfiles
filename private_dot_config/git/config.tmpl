@@ -4,15 +4,14 @@
 [core]
 	editor = /usr/bin/vim
 	whitespace = trailing-space,tab-in-indent,tabwidth=4
-	excludesfile = {{ .chezmoi.homeDir }}/.git/ignore
 [color]
 	ui = auto
 [apply]
 	whitespace = fix
 [alias]
-	graph = log --graph --pretty=format:\"%C(yellow)%h %Cgreen%ad %C(cyan)[%an]%Cred%d%Creset %s\" -C -M --date=short
-	clean-tags = fetch --prune origin +refs/tags/*:refs/tags/*
 	changelog = !git shortlog --no-merges $(git tag | tail -n 1)..HEAD
+	clean-tags = fetch --prune origin +refs/tags/*:refs/tags/*
+	graph = log --graph --pretty=format:\"%C(yellow)%h %Cgreen%ad %C(cyan)[%an]%Cred%d%Creset %s\" -C -M --date=short
 [push]
 	default = nothing
 [rerere]
