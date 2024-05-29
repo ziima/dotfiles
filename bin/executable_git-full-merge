@@ -1,0 +1,33 @@
+#!/bin/sh
+set -e
+# Find current branch and merge base
+CURRENT_BRANCH=$(git branch --show-current)
+if [ -z $CURRENT_BRANCH ]; then
+    echo "Not on a branch"
+    exit 2
+fi
+MERGE_BASE=$(git merge-base $CURRENT_BRANCH "$@")
+
+# Merge
+echo Will run: git merge --no-edit "$@"
+git merge --no-edit "$@"
+
+# Confirm the merged status
+echo Will run git graph ${MERGE_BASE}^..${CURRENT_BRANCH}
+git graph ${MERGE_BASE}^..${CURRENT_BRANCH}
+echo "Push?"
+# Wait for enter
+read DUMMY
+
+# Push
+echo Will run git push origin $CURRENT_BRANCH
+git push origin $CURRENT_BRANCH
+
+# Wait for the repo to process the merge before deleting the branches
+sleep 2
+
+echo Will run git push origin --delete "$@"
+git push origin --delete "$@"
+
+echo Will run git branch -d "$@"
+git branch -d "$@"
