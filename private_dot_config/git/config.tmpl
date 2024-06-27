@@ -11,7 +11,6 @@
 [alias]
 	changelog = !git shortlog --no-merges $(git tag | tail -n 1)..HEAD
 	clean-tags = fetch --prune origin +refs/tags/*:refs/tags/*
-	full-merge = !git-full-merge
 	graph = log --graph --pretty=format:\"%C(yellow)%h %Cgreen%ad %C(cyan)[%an]%Cred%d%Creset %s\" -C -M --date=short
 [push]
 	default = nothing

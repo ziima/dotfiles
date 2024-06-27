@@ -1,5 +1,10 @@
 #!/bin/sh
 set -e
+if [ -z "$@" ]; then
+    echo "No branches to merge"
+    exit 2
+fi
+
 # Find current branch and merge base
 CURRENT_BRANCH=$(git branch --show-current)
 if [ -z $CURRENT_BRANCH ]; then
@@ -8,26 +13,46 @@ if [ -z $CURRENT_BRANCH ]; then
 fi
 MERGE_BASE=$(git merge-base $CURRENT_BRANCH "$@")
 
+# Check if there are fixup commits in branches.
+for BRANCH in "$@"; do
+    (git log $CURRENT_BRANCH..$BRANCH --pretty="%s") | while read LINE; do
+        case $LINE in fixup!*)
+            echo "Fixup in branch $BRANCH"
+            exit 2
+        esac
+    done
+done
+
 # Merge
-echo Will run: git merge --no-edit "$@"
+echo "###" Will run: git merge --no-edit "$@"
 git merge --no-edit "$@"
 
 # Confirm the merged status
-echo Will run git graph ${MERGE_BASE}^..${CURRENT_BRANCH}
+echo "###" Will run git graph ${MERGE_BASE}^..${CURRENT_BRANCH}
 git graph ${MERGE_BASE}^..${CURRENT_BRANCH}
-echo "Push?"
+echo Push?
 # Wait for enter
 read DUMMY
 
 # Push
-echo Will run git push origin $CURRENT_BRANCH
+echo "###" Will run git push origin $CURRENT_BRANCH
 git push origin $CURRENT_BRANCH
 
 # Wait for the repo to process the merge before deleting the branches
-sleep 2
+sleep 1
 
-echo Will run git push origin --delete "$@"
-git push origin --delete "$@"
+# Delete local branched from remote
+LOCAL_BRANCHES=$(git branch --list "$@" --format='%(refname:short)')
+if [ -n "$LOCAL_BRANCHES" ]; then
+    echo "###" Will run git push origin --delete $LOCAL_BRANCHES
+    git push origin --delete $LOCAL_BRANCHES
+fi
+# Delete remote branches
+REMOTE_BRANCHES=$(git branch --list --remotes "$@" --format='%(refname:short)')
+if [ -n "$REMOTE_BRANCHES" ]; then
+    echo "###" Will run git branch --delete --remotes $REMOTE_BRANCHES
+    git branch --delete --remotes $REMOTE_BRANCHES
+fi
 
-echo Will run git branch -d "$@"
-git branch -d "$@"
+echo "###" Will run git branch --delete "$LOCAL_BRANCHES"
+git branch --delete "$LOCAL_BRANCHES"
