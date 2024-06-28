@@ -1,3 +1,6 @@
+# Delete old configuration files and directories
+.config/i3status
+.config/xfce4/terminal
 .git
 .gitconfig
 # Remove YAML alacritty config when no longer needed

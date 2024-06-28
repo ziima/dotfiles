@@ -1,3 +1,0 @@
-#!/bin/sh
-rm -rf $HOME/.config/i3status
-exit 0

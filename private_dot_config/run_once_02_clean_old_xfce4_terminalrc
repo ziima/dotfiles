@@ -1,4 +1,0 @@
-#!/bin/sh
-rm $HOME/.config/xfce4/terminal/terminalrc
-rmdir $HOME/.config/xfce4/terminal
-exit 0
