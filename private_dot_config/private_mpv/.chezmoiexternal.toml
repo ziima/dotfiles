@@ -1,0 +1,4 @@
+["scripts/reload.lua"]
+type = "file"
+url = "https://github.com/4e6/mpv-reload/raw/1a6a938/reload.lua"
+checksum.sha512 = "45fc1cd16e661e4e6901a81f26db7207dbf458ac5ac6b9094ac5ec669c22df96d7f2b53ebbb5843bd8feffb6a7e2e7d2dd73aedc2c51f5942579296fc54ee48b"

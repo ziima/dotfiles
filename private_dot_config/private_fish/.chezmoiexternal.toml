@@ -1,0 +1,4 @@
+["functions/fisher.fish"]
+type = "file"
+url = "https://github.com/jorgebucaran/fisher/raw/4.4.4/functions/fisher.fish"
+checksum.sha512 = "51296ac6b5424650b908159525144a8b7de8893b20b41d1b7dc88eef9a60855039cbb0228d489128b3ad6b0d3cc78646d076e15da02bec0989edca280b650c59"
