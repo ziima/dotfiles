@@ -1,0 +1,4 @@
+.git
+.gitconfig
+# Remove YAML alacritty config when no longer needed
+# .config/alacritty/alacritty.yml
