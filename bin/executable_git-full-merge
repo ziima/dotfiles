@@ -53,6 +53,8 @@ if [ -n "$REMOTE_BRANCHES" ]; then
     echo "###" Will run git branch --delete --remotes $REMOTE_BRANCHES
     git branch --delete --remotes $REMOTE_BRANCHES
 fi
-
-echo "###" Will run git branch --delete "$LOCAL_BRANCHES"
-git branch --delete "$LOCAL_BRANCHES"
+# Delete local branches from local repo
+if [ -n "$LOCAL_BRANCHES" ]; then
+    echo "###" Will run git branch --delete $LOCAL_BRANCHES
+    git branch --delete $LOCAL_BRANCHES
+fi
