@@ -23,11 +23,11 @@ Plugin 'gmarik/Vundle.vim'  " Let Vundle manage Vundle
 Plugin 'dense-analysis/ale'  " ALE (Asynchronous Lint Engine)
 {{- end }}
 Plugin 'fholgado/minibufexpl.vim'  " Buffer management
-Plugin 'fisadev/vim-isort'  " isort for VIM
 Plugin 'tpope/vim-commentary' " Comments
 Plugin 'luochen1990/rainbow' " Color nested parentheses in different colors
 Plugin 'tpope/vim-unimpaired' " Pair mappings
 Plugin 'tpope/vim-speeddating'  " CTRL-A/CTRL-X to increment dates
+Plugin 'tpope/vim-surround'  " Manipulate quotes or brackets surrounding the text
 Plugin 'zef/vim-cycle'  " CTRL-A/CTRL-X to cycle through defined groups
 Plugin 'tpope/vim-abolish' " Better substitution and case changes (coercion)
 " vim-coverage and its dependecies
@@ -96,6 +96,8 @@ nnoremap <silent> <C-h> :YcmCompleter GoTo<CR>
 {{- else -}}
 nnoremap <silent> <C-h> :ALEGoToDefinition<CR>
 nnoremap <silent> <C-j> :ALEHover<CR>
+" Run fixers
+nnoremap <silent> <C-i> :ALEFix<CR>
 {{- end }}
 " Toggle coverage
 {{ if eq .vim_lsp "ycm" -}}
@@ -143,6 +145,7 @@ let g:syntastic_aggregate_errors = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 {{- else -}}
 let g:ale_linters = {'python': ['ruff', 'cspell', 'mypy', 'pylsp']}
+let g:ale_fixers = {'python': ['ruff']}
 let g:ale_echo_msg_format = '[%linter%:%code%] %s'
 " Use flake8 project configuration and disable pycodestyle enabled by default.
 let g:ale_python_pylsp_config = {
