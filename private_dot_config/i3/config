@@ -210,6 +210,9 @@ bindsym $mod+Control+Right move workspace to output right
 # Screenshot
 bindsym --release Print exec scrot /tmp/screenshot-%Y-%m-%dT%H:%M:%S.png
 bindsym --release Control+Print exec scrot --freeze --select /tmp/screenshot-%Y-%m-%dT%H:%M:%S.png
+# For keyboards without the Printscreen key :-/
+bindsym --release $mod+p exec scrot /tmp/screenshot-%Y-%m-%dT%H:%M:%S.png
+bindsym --release $mod+Control+p exec scrot --freeze --select /tmp/screenshot-%Y-%m-%dT%H:%M:%S.png
 
 # Start the screensaver daemon
 exec xscreensaver -no-splash &
