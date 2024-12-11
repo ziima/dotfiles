@@ -28,6 +28,7 @@ echo "###" Will run: git merge --no-edit "$@"
 git merge --no-edit "$@"
 
 # Confirm the merged status
+# XXX: Fails if master is at the initial commit
 echo "###" Will run git graph ${MERGE_BASE}^..${CURRENT_BRANCH}
 git graph ${MERGE_BASE}^..${CURRENT_BRANCH}
 echo Push?
@@ -51,6 +52,7 @@ fi
 REMOTE_BRANCHES=$(git branch --list --remotes "$@" --format='%(refname:short)')
 if [ -n "$REMOTE_BRANCHES" ]; then
     echo "###" Will run git branch --delete --remotes $REMOTE_BRANCHES
+    # XXX: This only deletes those branches locally
     git branch --delete --remotes $REMOTE_BRANCHES
 fi
 # Delete local branches from local repo
