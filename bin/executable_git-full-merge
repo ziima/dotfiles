@@ -49,11 +49,10 @@ if [ -n "$LOCAL_BRANCHES" ]; then
     git push origin --delete $LOCAL_BRANCHES
 fi
 # Delete remote branches
-REMOTE_BRANCHES=$(git branch --list --remotes "$@" --format='%(refname:short)')
+REMOTE_BRANCHES=$(git branch --list --remotes "$@" --format='%(refname:lstrip=-1)')
 if [ -n "$REMOTE_BRANCHES" ]; then
-    echo "###" Will run git branch --delete --remotes $REMOTE_BRANCHES
-    # XXX: This only deletes those branches locally
-    git branch --delete --remotes $REMOTE_BRANCHES
+    echo "###" Will run git push origin --delete $REMOTE_BRANCHES
+    git push origin --delete $REMOTE_BRANCHES
 fi
 # Delete local branches from local repo
 if [ -n "$LOCAL_BRANCHES" ]; then
