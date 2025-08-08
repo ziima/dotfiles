@@ -19,7 +19,7 @@ font pango:monospace 8
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# The combination of xss-lock, nm-applet and amixer is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
 # xss-lock handles `loginctl lock-session` to lock screen.
@@ -30,11 +30,11 @@ exec --no-startup-id xss-lock --ignore-sleep -- xscreensaver-command -lock
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Use pactl to adjust volume in PulseAudio.
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+# Use amixer to adjust volume.
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer sset Master 10%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer sset Master 10%-
+bindsym XF86AudioMute exec --no-startup-id amixer sset Master toggle
+bindsym XF86AudioMicMute exec --no-startup-id amixer sset Capture toggle
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
