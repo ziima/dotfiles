@@ -1,1 +1,3 @@
-glab completion -s fish | source
+if command --query glab
+    glab completion -s fish | source
+end
