@@ -7,7 +7,13 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Load defaults.vim as described in vim docs (':help defaults.vim')
 unlet! skip_defaults_vim
-source $VIMRUNTIME/defaults.vim
+if !has('nvim')
+    " E.g. /usr/share/vim/vim92/defaults.vim
+    source $VIMRUNTIME/defaults.vim
+else
+    " Show a few lines of context around the cursor.
+    set scrolloff=5
+endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set up Vundle plugin first
 filetype off
@@ -63,9 +69,16 @@ set hlsearch
 set history=1000
 " Enable peristent undo - undos are remembered after vim is closed
 set undofile
-set undodir=$HOME/.vim/undo
+if !has('nvim')
+    set undodir=$HOME/.vim/undo
+endif
 " Create the undo directory
 call system('mkdir $HOME/.vim/undo')
+
+if has('nvim')
+    " Switch to vim colorscheme
+    colorscheme vim
+endif
 
 " MOVEMENT
 " allow backspace and cursor keys to cross line boundaries
@@ -130,10 +143,6 @@ autocmd BufWinEnter * match ExtraWhitespace '\s\+$\|\t'
 autocmd WinEnter * match ExtraWhitespace '\s\+$\|\t'
 
 " PLUGIN CONFIGURATION
-{{ if .vim_venv -}}
-let $VIRTUAL_ENV={{ .vim_venv | quote }}
-let $PYTHONPATH=$VIRTUAL_ENV."/lib/python3.11/site-packages:".$PYTHONPATH
-{{- end }}
 {{ if eq .vim_lsp "ycm" -}}
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
