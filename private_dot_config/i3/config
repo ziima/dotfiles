@@ -182,8 +182,9 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar
 bar {
         status_command py3status
-        # Display bar only on primary display/monitor
+        # Display bar on all displays/monitors
         output primary
+        output nonprimary
 }
 
 ############################################################
