@@ -22,10 +22,6 @@ font pango:monospace 8
 # The combination of xss-lock, nm-applet and amixer is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
-# xss-lock handles `loginctl lock-session` to lock screen.
-# See https://wiki.archlinux.org/title/XScreenSaver#Lock_on_suspend
-exec --no-startup-id xss-lock --ignore-sleep -- xscreensaver-command -lock
-
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
@@ -217,10 +213,18 @@ bindsym --release Control+Print exec scrot --freeze --select /tmp/screenshot-%Y-
 bindsym --release $mod+p exec scrot /tmp/screenshot-%Y-%m-%dT%H:%M:%S.png
 bindsym --release $mod+Control+p exec scrot --freeze --select /tmp/screenshot-%Y-%m-%dT%H:%M:%S.png
 
-# Start the screensaver daemon
-exec xscreensaver -no-splash &
+# Screensaver
 # Shortcut for screen lock
 bindsym $mod+o exec loginctl lock-session
+# xss-lock handles `loginctl lock-session` to lock screen.
+# See https://wiki.archlinux.org/title/XScreenSaver#Lock_on_suspend
+exec --no-startup-id xss-lock --ignore-sleep -- xscreensaver-command -lock
+exec --no-startup-id xscreensaver -no-splash
+# To temporarily use xtrlock (locks access, display is visible):
+# * kill xscreensaver daemon: `xscreensaver-command -exit`
+# * kill running xss-lock
+# * bind xtrlock to xss-lock (runs on foreground): `xss-lock --fork --ignore-sleep -- xtrlock`
+# To switch back kill the xss-lock and run the commands for xscreensaver from above in `screen`.
 
 # Assign default workspaces
 assign [class="Pidgin"] $ws3
