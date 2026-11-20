@@ -4,3 +4,9 @@
 .envrc
 # Any dev files
 pokus*
+
+# Claude files
+/opencode
+/.claude
+/_bmad
+/_bmad-output
